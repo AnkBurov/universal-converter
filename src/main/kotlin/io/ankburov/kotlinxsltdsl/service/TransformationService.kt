@@ -1,9 +1,9 @@
 package io.ankburov.kotlinxsltdsl.service
 
 import io.ankburov.kotlinxsltdsl.model.Schema
-import java.nio.file.Path
+import java.util.UUID
 
 interface TransformationService {
 
-    fun transformFile(file: Path, schema: Schema, mappings: Map<String, String>): List<String>
+    fun transformFile(schema: Schema, fileUuid: UUID, mappings: Map<String, String>): List<String>
 }

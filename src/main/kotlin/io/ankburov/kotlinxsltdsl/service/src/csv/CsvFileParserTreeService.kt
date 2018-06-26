@@ -9,6 +9,7 @@ import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
 import org.springframework.stereotype.Service
 import java.io.FileReader
+import java.io.Reader
 import java.nio.file.Path
 
 /**
@@ -16,10 +17,13 @@ import java.nio.file.Path
  */
 @Service
 class CsvFileParserTreeService : SourceFileParserTreeService {
+
     override fun parseFile(path: Path, mappings: Map<String, String>): List<Tree> {
-
         val reader = FileReader(path.absolutePath())
+        return parseFile(reader, mappings)
+    }
 
+    override fun parseFile(reader: Reader, mappings: Map<String, String>): List<Tree> {
         when {
             isFirstRowAHeader(mappings) -> CSVFormat.DEFAULT.withFirstRecordAsHeader()
             else -> CSVFormat.DEFAULT

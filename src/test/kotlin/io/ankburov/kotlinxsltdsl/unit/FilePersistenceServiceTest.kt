@@ -24,4 +24,15 @@ class FilePersistenceServiceTest {
 
         assertNotNull(fileUuid)
     }
+
+    @Test
+    fun getFileReader() {
+        val csv = ClassPathResource("samples/nested.csv")
+
+        val fileUuid = filePersistenceService.uploadFile(csv.file.toPath())
+
+        filePersistenceService.getFileReader(fileUuid).use {
+            assertNotNull(it.readText())
+        }
+    }
 }
