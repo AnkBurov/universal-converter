@@ -16,7 +16,6 @@ import java.nio.file.Path
  */
 @Service
 class CsvFileParserTreeService : SourceFileParserTreeService {
-
     override fun parseFile(path: Path, mappings: Map<String, String>): List<Tree> {
 
         val reader = FileReader(path.absolutePath())
@@ -46,6 +45,15 @@ class CsvFileParserTreeService : SourceFileParserTreeService {
             }
 
             return trees
+        }
+    }
+
+    override fun parseHeaders(path: Path): List<String> {
+        val reader = FileReader(path.absolutePath())
+
+        CSVFormat.DEFAULT.parse(reader).use { records ->
+            val record = records.firstOrNull() ?: throw IllegalArgumentException("CSV file is empty")
+            return record.toCollection(mutableListOf())
         }
     }
 

@@ -40,6 +40,16 @@ class CsvFileParserTreeServiceTest {
         checkForest(trees)
     }
 
+    @Test
+    fun parseHeaders() {
+        val csv = ClassPathResource("samples/nested.csv")
+        val expectedHeaders = listOf("year", "brand", "model", "something/nested")
+
+        val headers = csvFileParserTreeService.parseHeaders(csv.file.toPath())
+
+        assertEquals(expectedHeaders, headers)
+    }
+
     private fun checkForest(trees: List<Tree>) {
         assertEquals(2, trees.size)
         val firstTree = trees[0]
