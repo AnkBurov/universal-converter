@@ -3,6 +3,7 @@ package io.ankburov.kotlinxsltdsl.unit
 import io.ankburov.kotlinxsltdsl.model.Tree
 import io.ankburov.kotlinxsltdsl.model.treeDsl
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class TreeTest {
@@ -40,5 +41,22 @@ class TreeTest {
         assertEquals("1", tree.getValue("node"))
         assertEquals("fdafadf", tree.getValue("node/inner"))
         assertEquals("2", tree.getValue("node2"))
+    }
+
+    @Test
+    fun testIterable() {
+        val values = listOf("1", "fdafadf", "2")
+
+        val tree = treeDsl {
+            "node"(values[0]) {
+                "inner"(values[1])
+            }
+            "node2"(values[2])
+        }
+
+        tree.map { it.value }
+                .forEach {
+                    assertTrue(values.contains(it))
+                }
     }
 }

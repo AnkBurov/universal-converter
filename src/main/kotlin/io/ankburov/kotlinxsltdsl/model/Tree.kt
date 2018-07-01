@@ -1,5 +1,7 @@
 package io.ankburov.kotlinxsltdsl.model
 
+import java.util.*
+
 /**
  * A nice tree
  *
@@ -14,7 +16,7 @@ package io.ankburov.kotlinxsltdsl.model
  *
  * Not generized due to the need of persisting different types and be able to create intermediate nodes when inserting without messing with nulls safety
  */
-class Tree(internal val root: Node<Any>) {
+class Tree(internal val root: Node<Any>) : Iterable<Tree.Node<Any>> {
 
     fun addChild(key: String, value: Any) {
         val keyHierarchy = key.trim().split("/")
@@ -75,6 +77,32 @@ class Tree(internal val root: Node<Any>) {
 
         operator fun String.invoke(value: T, init: (Tree.Node<T>.() -> Unit)? = null) {
             node(this, value, init)
+        }
+    }
+
+    override fun iterator(): Iterator<Node<Any>> {
+        return RecursiveNodeIterator(root)
+    }
+
+    class RecursiveNodeIterator<T>(node: Node<T>) : Iterator<Node<T>> {
+
+        private val nodes = LinkedList<Node<T>>()
+
+        init {
+            fillNodesRecursive(node)
+        }
+
+        private fun fillNodesRecursive(node: Node<T>) {
+            node.children.forEach { fillNodesRecursive(it) }
+            nodes.add(node)
+        }
+
+        override fun hasNext(): Boolean {
+            return nodes.size > 1
+        }
+
+        override fun next(): Node<T> {
+            return nodes.removeFirst()
         }
     }
 
