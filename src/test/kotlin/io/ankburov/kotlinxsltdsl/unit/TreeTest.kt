@@ -1,6 +1,7 @@
 package io.ankburov.kotlinxsltdsl.unit
 
 import io.ankburov.kotlinxsltdsl.model.Tree
+import io.ankburov.kotlinxsltdsl.model.treeDsl
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -25,5 +26,19 @@ class TreeTest {
         keysToValues
                 .filterNot { it.first == "whatever/change" && it.second == "oldValue" }
                 .forEach { assertEquals(it.second, tree.getValue(it.first)) }
+    }
+
+    @Test
+    fun testDsl() {
+        val tree = treeDsl {
+            "node"("1") {
+                "inner"("fdafadf")
+            }
+            "node2"("2")
+        }
+
+        assertEquals("1", tree.getValue("node"))
+        assertEquals("fdafadf", tree.getValue("node/inner"))
+        assertEquals("2", tree.getValue("node2"))
     }
 }

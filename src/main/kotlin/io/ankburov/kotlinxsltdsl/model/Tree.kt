@@ -14,7 +14,7 @@ package io.ankburov.kotlinxsltdsl.model
  *
  * Not generized due to the need of persisting different types and be able to create intermediate nodes when inserting without messing with nulls safety
  */
-class Tree(private val root: Node<Any>) {
+class Tree(internal val root: Node<Any>) {
 
     fun addChild(key: String, value: Any) {
         val keyHierarchy = key.trim().split("/")
@@ -45,7 +45,7 @@ class Tree(private val root: Node<Any>) {
 
     private fun addChildRecursive(depth: Int, keysHierarchy: List<String>, value: Any, upperNode: Node<Any>) {
         if (depth == keysHierarchy.size - 1) {
-            val newNode = Node(keysHierarchy, value)
+            val newNode = Node(keysHierarchy, value, upperNode)
             val iterator = upperNode.children.iterator()
             while (iterator.hasNext()) {
                 val child = iterator.next()
@@ -59,7 +59,7 @@ class Tree(private val root: Node<Any>) {
                     .filter { it.keyHierarchy[depth] == keysHierarchy[depth] }
 
             if (filteredNodes.isEmpty()) {
-                val newNode = Node(keysHierarchy.subList(0, depth + 1), value)
+                val newNode = Node(keysHierarchy.subList(0, depth + 1), value, upperNode)
                 upperNode.children.add(newNode)
                 addChildRecursive(depth + 1, keysHierarchy, value, newNode)
             } else {
@@ -68,10 +68,19 @@ class Tree(private val root: Node<Any>) {
         }
     }
 
+    class Node<T>(val keyHierarchy: List<String>,
+                  val value: T,
+                  val parent: Node<T>? = null,
+                  val children: MutableList<Node<T>> = arrayListOf()) {
 
-    class Node<T>(val keyHierarchy: List<String>, val value: T, val children: MutableList<Node<T>> = arrayListOf())
+        operator fun String.invoke(value: T, init: (Tree.Node<T>.() -> Unit)? = null) {
+            node(this, value, init)
+        }
+    }
 
     companion object {
-        fun new() = Tree(Tree.Node(listOf("root"), ""))
+        fun new() = Tree(Tree.Node(listOf(ROOT_KEY), ""))
+
+        const val ROOT_KEY = "root"
     }
 }

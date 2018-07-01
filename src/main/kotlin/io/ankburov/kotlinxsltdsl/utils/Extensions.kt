@@ -28,3 +28,5 @@ fun Flux<DataBuffer>.writeToTempFile(): Mono<Path> {
     }
     return tempFile.toMono()
 }
+
+fun <T> Collection<T>.startsWith(predicate: (T) -> Boolean) = this.isNotEmpty() && predicate(this.iterator().next())
