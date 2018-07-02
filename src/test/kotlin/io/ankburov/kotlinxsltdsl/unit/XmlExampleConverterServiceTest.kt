@@ -22,10 +22,11 @@ class XmlExampleConverterServiceTest {
         val mappings = mapOf("year" to "year",
                 "brand" to "brand",
                 "model" to "model",
-                "something/nested" to "something/nested",
-                Constants.IS_FIRST_ROW_A_HEADER to "true")
+                "something/nested" to "something/nested")
 
-        val trees = csvFileParserTreeService.parseFile(csvFile.file.toPath(), mappings)
+        val properties = mapOf(Constants.IS_FIRST_ROW_A_HEADER to "true")
+
+        val trees = csvFileParserTreeService.parseFile(csvFile.file.toPath(), mappings, properties)
 
         val xmls = xmlExampleConverterService.convertTrees(trees)
 

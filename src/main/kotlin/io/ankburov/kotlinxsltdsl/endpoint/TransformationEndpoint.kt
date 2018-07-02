@@ -22,7 +22,7 @@ class TransformationEndpoint(
         require(request.mappings.isNotEmpty()) { "Mapping for scheme ${schema.name} cannot be empty" }
 
         return Mono.just(request)
-                .map { transformationService.transformFile(schema, it.fileUUID, it.mappings) }
+                .map { transformationService.transformFile(schema, it.fileUUID, it.mappings, it.properties) }
                 .subscribeOn(Schedulers.elastic())
     }
 }

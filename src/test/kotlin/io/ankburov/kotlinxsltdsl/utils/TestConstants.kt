@@ -38,5 +38,22 @@ class TestConstants {
 		</something>
 	</cars>
 </root>""".trimIndent()
+
+        val INVALID_XML = """<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="some">
+	<cars>
+		<year>
+			1997
+		</year>
+		<brand>
+			Ford
+		</brand>
+		<model>
+			E350
+		</model>
+		<something isWhatever="sure">
+		</something>
+	</cars>
+</root>""".trimIndent()
     }
 }

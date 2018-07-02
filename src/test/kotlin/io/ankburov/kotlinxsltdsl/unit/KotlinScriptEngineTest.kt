@@ -34,9 +34,11 @@ class KotlinScriptEngineTest {
         val mappings = mapOf("year" to "year",
                 "brand" to "brand",
                 "model" to "model",
-                "something/nested" to "something/nested",
-                Constants.IS_FIRST_ROW_A_HEADER to "true")
-        val trees = csvFileParserTreeService.parseFile(csvFile.file.toPath(), mappings)
+                "something/nested" to "something/nested")
+
+        val properties = mapOf(Constants.IS_FIRST_ROW_A_HEADER to "true")
+
+        val trees = csvFileParserTreeService.parseFile(csvFile.file.toPath(), mappings, properties)
 
         val scriptEngine = ScriptEngineManager().getEngineByExtension("kts")
 

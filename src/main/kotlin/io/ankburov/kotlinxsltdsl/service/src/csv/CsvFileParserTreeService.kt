@@ -18,14 +18,14 @@ import java.nio.file.Path
 @Service
 class CsvFileParserTreeService : SourceFileParserTreeService {
 
-    override fun parseFile(path: Path, mappings: Map<String, String>): List<Tree> {
+    override fun parseFile(path: Path, mappings: Map<String, String>, properties: Map<String, String>): List<Tree> {
         val reader = FileReader(path.absolutePath())
-        return parseFile(reader, mappings)
+        return parseFile(reader, mappings, properties)
     }
 
-    override fun parseFile(reader: Reader, mappings: Map<String, String>): List<Tree> {
+    override fun parseFile(reader: Reader, mappings: Map<String, String>, properties: Map<String, String>): List<Tree> {
         when {
-            isFirstRowAHeader(mappings) -> CSVFormat.DEFAULT.withFirstRecordAsHeader()
+            isFirstRowAHeader(properties) -> CSVFormat.DEFAULT.withFirstRecordAsHeader()
             else -> CSVFormat.DEFAULT
         }.parse(reader).use { records ->
 

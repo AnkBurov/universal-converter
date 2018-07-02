@@ -6,5 +6,7 @@ class Constants {
         const val IS_NUMERIC = "^[0-9]*\$"
 
         const val XML_HEADER = """<?xml version="1.0" encoding="UTF-8"?>"""
+
+        const val SKIP_VALIDATION = "skipValidation"
     }
 }

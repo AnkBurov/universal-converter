@@ -68,7 +68,7 @@ class MainConfiguration {
         // Getting all the server nodes that are already up and running.
         val nodes = cluster.forServers().nodes()
 
-        if (!cluster.active()) cluster.active()
+        if (!cluster.active()) cluster.active(true)
 
         // Setting the baseline topology that is represented by these nodes.
         cluster.setBaselineTopology(nodes)

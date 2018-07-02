@@ -36,7 +36,7 @@ class TransformationEndpointIntegrationTest {
                 .ok()
                 .bodyNotNull()
 
-        val request = TransformationRequest(fileUuid, getMappings())
+        val request = TransformationRequest(fileUuid, getMappings(), getProperties())
 
 
         val xmls = restTemplate.send<List<String>>("/transform/${Schema.XML_EXAMPLE_V1}", HttpMethod.POST, HttpEntity(request))
@@ -51,7 +51,10 @@ class TransformationEndpointIntegrationTest {
         return mapOf("year" to "year",
                 "brand" to "brand",
                 "model" to "model",
-                "something/nested" to "something/nested",
-                Constants.IS_FIRST_ROW_A_HEADER to "true")
+                "something/nested" to "something/nested")
+    }
+
+    private fun getProperties(): Map<String, String> {
+        return mapOf(Constants.IS_FIRST_ROW_A_HEADER to "true")
     }
 }

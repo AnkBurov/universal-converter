@@ -18,10 +18,11 @@ class CsvFileParserTreeServiceTest {
         val mappings = mapOf("year" to "year",
                 "brand" to "brand",
                 "model" to "model",
-                "something/nested" to "something/nested",
-                IS_FIRST_ROW_A_HEADER to "true")
+                "something/nested" to "something/nested")
 
-        val trees = csvFileParserTreeService.parseFile(csv.file.toPath(), mappings)
+        val properties = mapOf(IS_FIRST_ROW_A_HEADER to "true")
+
+        val trees = csvFileParserTreeService.parseFile(csv.file.toPath(), mappings, properties)
 
         checkForest(trees)
     }
@@ -35,7 +36,7 @@ class CsvFileParserTreeServiceTest {
                 "2" to "model",
                 "3" to "something/nested")
 
-        val trees = csvFileParserTreeService.parseFile(csv.file.toPath(), mappings)
+        val trees = csvFileParserTreeService.parseFile(csv.file.toPath(), mappings, emptyMap())
 
         checkForest(trees)
     }
