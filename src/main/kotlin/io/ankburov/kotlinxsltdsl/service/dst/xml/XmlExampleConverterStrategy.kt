@@ -1,9 +1,11 @@
 package io.ankburov.kotlinxsltdsl.service.dst.xml
 
+import io.ankburov.kotlinxsltdsl.model.NodeName
 import io.ankburov.kotlinxsltdsl.model.Schema
 import io.ankburov.kotlinxsltdsl.model.Tree
 import io.ankburov.kotlinxsltdsl.service.dst.ConverterStrategy
 import io.ankburov.kotlinxsltdsl.utils.Constants.Companion.XML_HEADER
+import io.ankburov.kotlinxsltdsl.utils.getNodeNameFields
 import org.redundent.kotlin.xml.xml
 import org.springframework.stereotype.Component
 
@@ -39,16 +41,18 @@ class XmlExampleConverterStrategy : ConverterStrategy {
         return listOf(XML_HEADER + System.lineSeparator() + xmlBody.toString())
     }
 
-    override fun getUsingNodeNames() = listOf(YEAR, BRAND, MODEL, SOMETHING_NESTED)
+    override fun getUsingNodeNames() = usingNodeNamesField
 
     override fun getSchema() = Schema.XML_EXAMPLE_V1
 
     companion object {
         const val XMLNS = "some"
 
-        const val YEAR = "year"
-        const val BRAND = "brand"
-        const val MODEL = "model"
-        const val SOMETHING_NESTED = "something/nested"
+        val YEAR = NodeName("year", isRequired = true)
+        val BRAND = NodeName("brand")
+        val MODEL = NodeName("model")
+        val SOMETHING_NESTED = NodeName("something/nested")
+
+        val usingNodeNamesField = this.getNodeNameFields()
     }
 }

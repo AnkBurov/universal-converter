@@ -1,5 +1,6 @@
 package io.ankburov.kotlinxsltdsl.service.dst
 
+import io.ankburov.kotlinxsltdsl.model.NodeName
 import io.ankburov.kotlinxsltdsl.model.Schema
 import io.ankburov.kotlinxsltdsl.model.Tree
 
@@ -12,5 +13,5 @@ interface ConverterStrategy {
 
     fun getSchema(): Schema
 
-    fun getUsingNodeNames(): List<String>
+    fun getUsingNodeNames(): List<NodeName>
 }

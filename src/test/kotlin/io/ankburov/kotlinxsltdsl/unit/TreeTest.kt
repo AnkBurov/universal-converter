@@ -1,5 +1,6 @@
 package io.ankburov.kotlinxsltdsl.unit
 
+import io.ankburov.kotlinxsltdsl.model.NodeName
 import io.ankburov.kotlinxsltdsl.model.Tree
 import io.ankburov.kotlinxsltdsl.model.treeDsl
 import org.junit.Assert.assertEquals
@@ -58,5 +59,19 @@ class TreeTest {
                 .forEach {
                     assertTrue(values.contains(it))
                 }
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun testAbsentValue() {
+        val nodeName = NodeName("some/absent/node", isRequired = true)
+
+        val xml = treeDsl {
+            "node"("1") {
+                "inner"("fdafadf")
+            }
+            "node2"("2")
+        }
+
+        xml.getValue(nodeName)
     }
 }

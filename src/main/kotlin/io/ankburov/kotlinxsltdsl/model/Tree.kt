@@ -24,6 +24,15 @@ class Tree(internal val root: Node<Any>) : Iterable<Tree.Node<Any>> {
         addChildRecursive(0, keyHierarchy, value, root)
     }
 
+    fun getValue(nodeName: NodeName): Any? {
+        val value = getValue(nodeName.name)
+        if (value == null && nodeName.isRequired) {
+            throw IllegalArgumentException("Field ${nodeName.name} is required and cannot be null")
+        }
+
+        return value
+    }
+
     fun getValue(key: String): Any? {
         val keyHierarchy = key.trim().split("/")
 
@@ -71,12 +80,16 @@ class Tree(internal val root: Node<Any>) : Iterable<Tree.Node<Any>> {
     }
 
     class Node<T>(val keyHierarchy: List<String>,
-                  val value: T,
+                  val value: T? = null,
                   val parent: Node<T>? = null,
                   val children: MutableList<Node<T>> = arrayListOf()) {
 
         operator fun String.invoke(value: T, init: (Tree.Node<T>.() -> Unit)? = null) {
             node(this, value, init)
+        }
+
+        operator fun String.invoke(init: (Tree.Node<T>.() -> Unit)? = null) {
+            node(this, value = null, init = init)
         }
     }
 

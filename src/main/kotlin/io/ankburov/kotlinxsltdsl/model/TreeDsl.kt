@@ -12,7 +12,7 @@ object treeDsl {
     }
 }
 
-fun <T> Tree.Node<T>.node(key: String, value: T, init: (Tree.Node<T>.() -> Unit)? = null) {
+fun <T> Tree.Node<T>.node(key: String, value: T? = null, init: (Tree.Node<T>.() -> Unit)? = null) {
     val newNodeKeysHierarchy = when {
         keyHierarchy.startsWith { it == ROOT_KEY } -> ArrayList<String>(keyHierarchy.subList(1, keyHierarchy.size))
         else -> ArrayList<String>(keyHierarchy)

@@ -8,7 +8,7 @@ import org.junit.Test
 
 class XmlExampleValidationStrategyTest {
 
-    private val validationStrategy : SchemaValidationStrategy = XmlExampleValidationStrategy()
+    private val validationStrategy: SchemaValidationStrategy = XmlExampleValidationStrategy()
 
     @Test
     fun validateXml() {
@@ -21,5 +21,6 @@ class XmlExampleValidationStrategyTest {
     fun validateInvalidXml() {
         val sourceXml = INVALID_XML
 
-        validationStrategy.validateDocument(listOf(sourceXml))    }
+        validationStrategy.validateDocument(listOf(sourceXml))
+    }
 }
