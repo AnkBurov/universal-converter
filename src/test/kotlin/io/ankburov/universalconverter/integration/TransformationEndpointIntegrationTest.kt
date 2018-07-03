@@ -20,6 +20,8 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.test.context.junit4.SpringRunner
+import org.xmlunit.builder.Input
+import org.xmlunit.diff.DOMDifferenceEngine
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -44,7 +46,7 @@ class TransformationEndpointIntegrationTest {
                 .bodyNotNull()
 
         assertEquals(1, xmls.size)
-        assertEquals(EXPECTED_XML, xmls[0])
+        DOMDifferenceEngine().compare(EXPECTED_XML.xmlUnit(), xmls[0].xmlUnit())
     }
 
     private fun getMappings(): Map<String, String> {
@@ -57,4 +59,6 @@ class TransformationEndpointIntegrationTest {
     private fun getProperties(): Map<String, String> {
         return mapOf(Constants.IS_FIRST_ROW_A_HEADER to "true")
     }
+
+    private fun String.xmlUnit() = Input.fromString(this).build()
 }
